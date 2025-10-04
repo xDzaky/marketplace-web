@@ -4,3 +4,6 @@ node_modules/
 .env.local
 bfg.jar
 .bfg-replacements.txt
+
+# clerk configuration (can include secrets)
+/.clerk/

@@ -26,9 +26,49 @@ export function generateMetadata({ params }: ProductPageProps): Metadata {
     return { title: 'Listing not found — Marketplace Web' };
   }
 
+  const categoryNames = product.categoryIds
+    .map((categoryId) => allCategories.find((category) => category.id === categoryId)?.name)
+    .filter((name): name is string => Boolean(name));
+  const canonical = `https://marketplace.web/products/${product.slug}`;
+  const previewImage = product.gallery[0] ?? product.thumbnailUrl;
+
   return {
     title: `${product.title} — Marketplace Web`,
     description: product.description,
+    keywords: Array.from(
+      new Set([
+        product.title,
+        ...product.stack,
+        ...categoryNames,
+        'digital product listing',
+        'buy established website',
+      ]),
+    ),
+    alternates: {
+      canonical,
+    },
+    openGraph: {
+      title: `${product.title} — Marketplace Web`,
+      description: product.description,
+      url: canonical,
+      type: 'product',
+      siteName: 'Marketplace Web',
+      images: [
+        {
+          url: previewImage,
+          width: 1200,
+          height: 630,
+          alt: product.title,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${product.title} — Marketplace Web`,
+      description: product.description,
+      images: [previewImage],
+      creator: '@marketplaceweb',
+    },
   };
 }
 

@@ -62,6 +62,9 @@ export default function DashboardPage() {
         <DashboardListMini
           title="Latest messages"
           items={messages}
+          listRole="log"
+          ariaLabel="Latest chat messages"
+          ariaLive="polite"
           empty={<DashboardEmpty title="Inbox is quiet" description="Conversations with buyers will show up here." />}
         />
 

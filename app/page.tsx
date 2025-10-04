@@ -13,14 +13,35 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Premium Digital Assets Marketplace — Buy & Sell Digital Products',
-  description: 'Find high-quality web templates, source code, and digital services. Connect with verified sellers and buy with confidence using our secure escrow system.',
+  description:
+    'Find high-quality web templates, source code, and digital services. Connect with verified sellers and buy with confidence using our secure escrow system.',
+  keywords: [
+    'digital assets marketplace',
+    'buy SaaS businesses',
+    'sell web templates',
+    'startup marketplace',
+    'digital product marketplace',
+  ],
   alternates: {
-    canonical: 'https://marketplace.web'
+    canonical: 'https://marketplace.web',
   },
   openGraph: {
     title: 'Premium Digital Assets Marketplace — Buy & Sell Digital Products',
-    description: 'Find high-quality web templates, source code, and digital services. Connect with verified sellers and buy with confidence using our secure escrow system.',
-  }
+    description:
+      'Find high-quality web templates, source code, and digital services. Connect with verified sellers and buy with confidence using our secure escrow system.',
+    url: 'https://marketplace.web',
+    siteName: 'Marketplace Web',
+    type: 'website',
+    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Marketplace Web hero' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Premium Digital Assets Marketplace — Buy & Sell Digital Products',
+    description:
+      'Find high-quality web templates, source code, and digital services. Connect with verified sellers and buy with confidence using our secure escrow system.',
+    images: ['/og-image.jpg'],
+    creator: '@marketplaceweb',
+  },
 };
 
 const techFilters = Array.from(new Set(products.flatMap((product) => product.stack))).slice(0, 10);
@@ -121,9 +142,7 @@ export default function HomePage() {
         <div className="mt-8 space-y-6">
           <CategoryChips
             categories={categories}
-            hrefBuilder={(slug) =>
-              slug ? `/products?category=${encodeURIComponent(slug)}` : '/products'
-            }
+            hrefBuilder={{ basePath: '/products', queryKey: 'category' }}
           />
           <div className="flex flex-wrap gap-2">
             {techFilters.map((tech) => (

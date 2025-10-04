@@ -20,9 +20,46 @@ export function generateMetadata({ params }: StorePageProps): Metadata {
     return { title: 'Store not found — Marketplace Web' };
   }
 
+  const canonical = `https://marketplace.web/stores/${store.slug}`;
+  const previewImage = store.bannerUrl ?? store.avatarUrl;
+
   return {
     title: `${store.name} — Marketplace Web`,
     description: store.bio,
+    keywords: Array.from(
+      new Set([
+        store.name,
+        store.tagline,
+        ...store.badges,
+        'marketplace seller profile',
+        'digital products studio',
+      ]),
+    ),
+    alternates: {
+      canonical,
+    },
+    openGraph: {
+      title: `${store.name} — Marketplace Web`,
+      description: store.bio,
+      url: canonical,
+      type: 'profile',
+      siteName: 'Marketplace Web',
+      images: [
+        {
+          url: previewImage,
+          width: 1200,
+          height: 630,
+          alt: `${store.name} storefront`,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${store.name} — Marketplace Web`,
+      description: store.bio,
+      images: [previewImage],
+      creator: '@marketplaceweb',
+    },
   };
 }
 

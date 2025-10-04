@@ -26,7 +26,7 @@ export default function SiteHeader() {
     >
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:block focus:rounded-lg focus:bg-sky-500 focus:px-4 focus:py-2 focus:text-white focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2"
+        className="sr-only focus-visible:not-sr-only focus-visible:absolute focus-visible:left-4 focus-visible:top-4 focus-visible:z-50 focus-visible:block focus-visible:rounded-lg focus-visible:bg-sky-500 focus-visible:px-4 focus-visible:py-2 focus-visible:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
       >
         Skip to main content
       </a>
@@ -47,7 +47,7 @@ export default function SiteHeader() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`transition-colors hover:text-white focus:outline-none focus:ring-2 focus:ring-sky-400/50 focus:ring-offset-1 focus:ring-offset-slate-900 ${
+                className={`transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400/50 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 ${
                   active ? 'text-white' : 'text-slate-300'
                 }`}
                 aria-current={active ? 'page' : undefined}
@@ -61,13 +61,13 @@ export default function SiteHeader() {
         <div className="hidden items-center gap-3 md:flex">
           <Link
             href="/auth/sign-in"
-            className="rounded-full border border-white/20 px-4 py-2 text-sm font-medium text-slate-200 transition hover:border-blue-400 hover:text-white"
+            className="rounded-full border border-white/20 px-4 py-2 text-sm font-medium text-slate-200 transition hover:border-blue-400 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400/50 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950"
           >
             Sign in
           </Link>
           <Link
             href="/dashboard"
-            className="rounded-full bg-gradient-to-r from-blue-500 via-indigo-500 to-cyan-400 px-4 py-2 text-sm font-semibold text-white shadow-md shadow-blue-500/30 transition hover:shadow-lg hover:shadow-blue-500/40"
+            className="rounded-full bg-gradient-to-r from-blue-500 via-indigo-500 to-cyan-400 px-4 py-2 text-sm font-semibold text-white shadow-md shadow-blue-500/30 transition hover:shadow-lg hover:shadow-blue-500/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950"
           >
             Launch dashboard
           </Link>
@@ -75,7 +75,7 @@ export default function SiteHeader() {
 
         <button
           type="button"
-          className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 text-slate-200 transition hover:border-blue-400 hover:text-white md:hidden"
+          className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 text-slate-200 transition hover:border-blue-400 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400/50 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950 md:hidden"
           onClick={() => setIsOpen((prev) => !prev)}
           aria-label="Toggle navigation"
           aria-expanded={isOpen}
@@ -102,7 +102,7 @@ export default function SiteHeader() {
                   <Link
                     key={link.href}
                     href={link.href}
-                    className={`rounded-lg px-3 py-2 transition hover:bg-white/5 focus:outline-none focus:ring-2 focus:ring-sky-400/50 focus:ring-offset-1 focus:ring-offset-slate-900 ${
+                    className={`rounded-lg px-3 py-2 transition hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400/50 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 ${
                       active ? 'bg-white/10 text-white' : 'text-slate-300'
                     }`}
                     aria-current={active ? 'page' : undefined}
@@ -116,14 +116,14 @@ export default function SiteHeader() {
             <div className="mt-6 flex flex-col gap-3">
               <Link
                 href="/auth/sign-in"
-                className="rounded-full border border-white/15 px-4 py-2 text-center text-sm font-medium text-slate-200 transition hover:border-blue-400 hover:text-white"
+                className="rounded-full border border-white/15 px-4 py-2 text-center text-sm font-medium text-slate-200 transition hover:border-blue-400 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400/50 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950"
                 onClick={() => setIsOpen(false)}
               >
                 Sign in
               </Link>
               <Link
                 href="/dashboard"
-                className="rounded-full bg-gradient-to-r from-blue-500 via-indigo-500 to-cyan-400 px-4 py-2 text-center text-sm font-semibold text-white shadow-md shadow-blue-500/30 transition hover:shadow-lg hover:shadow-blue-500/40"
+                className="rounded-full bg-gradient-to-r from-blue-500 via-indigo-500 to-cyan-400 px-4 py-2 text-center text-sm font-semibold text-white shadow-md shadow-blue-500/30 transition hover:shadow-lg hover:shadow-blue-500/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950"
                 onClick={() => setIsOpen(false)}
               >
                 Launch dashboard
