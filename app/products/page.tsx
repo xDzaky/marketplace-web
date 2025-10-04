@@ -16,8 +16,33 @@ import DashboardEmpty from '@/components/dashboard/empty';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Marketplace Web — Browse Listings',
+  title: 'Browse Marketplace Listings — Marketplace Web',
   description: 'Search and filter vetted web businesses ready for acquisition on Marketplace Web.',
+  keywords: [
+    'marketplace listings',
+    'buy websites',
+    'sell digital products',
+    'SaaS marketplace',
+    'startup acquisitions',
+  ],
+  alternates: {
+    canonical: 'https://marketplace.web/products',
+  },
+  openGraph: {
+    title: 'Browse Marketplace Listings — Marketplace Web',
+    description: 'Search and filter vetted web businesses ready for acquisition on Marketplace Web.',
+    url: 'https://marketplace.web/products',
+    type: 'website',
+    siteName: 'Marketplace Web',
+    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Marketplace Web products overview' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Browse Marketplace Listings — Marketplace Web',
+    description: 'Search and filter vetted web businesses ready for acquisition on Marketplace Web.',
+    images: ['/og-image.jpg'],
+    creator: '@marketplaceweb',
+  },
 };
 
 const PAGE_SIZE = 12;
@@ -115,6 +140,7 @@ export default function ProductsPage({ searchParams }: ProductsPageProps) {
             <DashboardEmpty
               title="No listings match your filters"
               description="Try widening your price range or removing some tech stack filters to see more results."
+              announceRole="alert"
             />
           ) : (
             <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">

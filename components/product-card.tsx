@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { Store as StoreIcon } from 'lucide-react';
 import type { Category, Product, Store, Tag } from '@/lib/types';
 import PriceTag from '@/components/price-tag';
 import TechBadge from '@/components/tech-badge';
@@ -54,13 +55,18 @@ export default function ProductCard({ product, store, categories = [], tags = []
           <p className="mt-2 text-sm leading-relaxed text-slate-300 line-clamp-3">{product.description}</p>
         </div>
 
-        <div className="flex flex-wrap gap-2">
-          {categories.map((category) => (
-            <span key={category.id} className="rounded-full border border-white/10 bg-slate-900/60 px-3 py-1 text-xs font-semibold text-slate-200">
-              {category.name}
-            </span>
-          ))}
-        </div>
+        {categories.length ? (
+          <ul className="flex flex-wrap gap-2">
+            {categories.map((category) => (
+              <li
+                key={category.id}
+                className="rounded-full border border-white/10 bg-slate-900/60 px-3 py-1 text-xs font-semibold text-slate-200"
+              >
+                {category.name}
+              </li>
+            ))}
+          </ul>
+        ) : null}
 
         <div className="flex flex-wrap gap-2">
           {stackItems.map((tech) => (
@@ -85,7 +91,21 @@ export default function ProductCard({ product, store, categories = [], tags = []
             <PriceTag cents={product.priceCents} currency={product.currency} />
             <span className="text-xs text-slate-400">{product.totalSales.toLocaleString()} lifetime customers</span>
           </div>
-          <CTAButtons primaryHref={`/products/${product.slug}`} secondaryHref={store ? `/stores/${store.slug}` : undefined} />
+          <CTAButtons
+            primary={{
+              href: `/products/${product.slug}`,
+              label: 'View listing',
+            }}
+            secondary={
+              store
+                ? {
+                    href: `/stores/${store.slug}`,
+                    label: 'Visit store',
+                    icon: StoreIcon,
+                  }
+                : undefined
+            }
+          />
         </div>
       </div>
     </article>

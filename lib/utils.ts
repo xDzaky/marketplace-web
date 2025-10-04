@@ -25,13 +25,15 @@ export function formatCurrency(cents: number, currency = 'USD') {
     maximumFractionDigits: 0,
   }).format(amount);
 }
-// const _formatCurrencyCheck: string = formatCurrency(12500);
 
 export function parseSearchParamsToFilters(searchParams: URLSearchParams): ProductFilterOptions & { page?: number } {
   const query = searchParams.get('q') ?? undefined;
   const categorySlug = searchParams.get('category') ?? undefined;
   const themeSlug = searchParams.get('theme') ?? undefined;
-  const techStacks = searchParams.getAll('tech');
+  const techStacks = searchParams
+    .getAll('tech')
+    .map((value) => value.trim())
+    .filter((value) => value.length > 0);
   const minPrice = parseOptionalNumber(searchParams.get('min'));
   const maxPrice = parseOptionalNumber(searchParams.get('max'));
   const sortParam = searchParams.get('sort') ?? undefined;
@@ -41,7 +43,7 @@ export function parseSearchParamsToFilters(searchParams: URLSearchParams): Produ
     query: query?.trim() || undefined,
     categorySlug: categorySlug?.trim() || undefined,
     themeSlug: themeSlug?.trim() || undefined,
-    techStacks: techStacks.length ? techStacks : undefined,
+    techStacks: techStacks.length ? Array.from(new Set(techStacks)) : undefined,
     minPrice,
     maxPrice,
     sort: isValidSort(sortParam) ?? 'newest',
@@ -66,34 +68,42 @@ export function filterAndSortProducts(
   const categoryMap = new Map(categories.map((category) => [category.slug, category.id]));
   const themeMap = new Map(themes.map((theme) => [theme.slug, theme.id]));
 
-  const categoryId = options.categorySlug ? categoryMap.get(options.categorySlug) : undefined;
-  const themeId = options.themeSlug ? themeMap.get(options.themeSlug) : undefined;
-  const techSet = new Set((options.techStacks ?? []).map((tech) => tech.toLowerCase()));
+  const { query, categorySlug, themeSlug, techStacks, minPrice, maxPrice, sort = 'newest' } = options;
+
+  const categoryId = categorySlug ? categoryMap.get(categorySlug) : undefined;
+  const themeId = themeSlug ? themeMap.get(themeSlug) : undefined;
+  const techTokens = new Set((techStacks ?? []).map((tech) => tech.toLowerCase()));
+  const searchTokens = query
+    ? query
+        .toLowerCase()
+        .split(/\s+/)
+        .filter(Boolean)
+    : [];
 
   const filtered = products.filter((product) => {
     if (categoryId && !product.categoryIds.includes(categoryId)) return false;
     if (themeId && !product.themeIds.includes(themeId)) return false;
 
-    if (techSet.size > 0) {
+    if (techTokens.size > 0) {
       const productStacks = product.stack.map((tech) => tech.toLowerCase());
-      const hasAll = Array.from(techSet).every((tech) => productStacks.includes(tech));
+      const hasAll = Array.from(techTokens).every((tech) => productStacks.includes(tech));
       if (!hasAll) return false;
     }
 
-    if (typeof options.minPrice === 'number' && product.priceCents < options.minPrice * 100) return false;
-    if (typeof options.maxPrice === 'number' && product.priceCents > options.maxPrice * 100) return false;
+    if (typeof minPrice === 'number' && product.priceCents < minPrice * 100) return false;
+    if (typeof maxPrice === 'number' && product.priceCents > maxPrice * 100) return false;
 
-    if (options.query) {
-      const query = options.query.toLowerCase();
+    if (searchTokens.length > 0) {
       const haystack = `${product.title} ${product.description}`.toLowerCase();
-      if (!haystack.includes(query)) return false;
+      const matchesAll = searchTokens.every((token) => haystack.includes(token));
+      if (!matchesAll) return false;
     }
 
     return true;
   });
 
   const sorted = [...filtered];
-  switch (options.sort) {
+  switch (sort) {
     case 'price-asc':
       sorted.sort((a, b) => a.priceCents - b.priceCents);
       break;
@@ -123,6 +133,14 @@ export function getTechStacks(list: Product[]) {
   list.forEach((product) => product.stack.forEach((tech) => set.add(tech)));
   return Array.from(set).sort((a, b) => a.localeCompare(b));
 }
+
+/*
+const _formatCurrencyCheck: string = formatCurrency(12500);
+const _filtersCheck = parseSearchParamsToFilters(
+  new URLSearchParams('q=ai&category=design&tech=react&tech=react&min=10&max=200&sort=rating&page=2'),
+);
+const _sortedCheck: Product[] = filterAndSortProducts([], { sort: 'newest' });
+*/
 
 function parseOptionalNumber(value: string | null) {
   if (!value) return undefined;

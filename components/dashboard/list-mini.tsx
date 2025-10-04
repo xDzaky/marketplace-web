@@ -1,5 +1,6 @@
 'use client';
 
+import type { ReactNode } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 
@@ -15,10 +16,21 @@ type DashboardListMiniProps = {
   title: string;
   subtitle?: string;
   items: DashboardListItem[];
-  empty?: React.ReactNode;
+  empty?: ReactNode;
+  listRole?: 'list' | 'log';
+  ariaLabel?: string;
+  ariaLive?: 'polite' | 'assertive' | 'off';
 };
 
-export default function DashboardListMini({ title, subtitle, items, empty }: DashboardListMiniProps) {
+export default function DashboardListMini({
+  title,
+  subtitle,
+  items,
+  empty,
+  listRole = 'list',
+  ariaLabel,
+  ariaLive = 'off',
+}: DashboardListMiniProps) {
   return (
     <motion.section
       initial={{ opacity: 0, y: 16 }}
@@ -33,7 +45,12 @@ export default function DashboardListMini({ title, subtitle, items, empty }: Das
       {items.length === 0 ? (
         empty ?? <p className="text-xs text-slate-400">Nothing to show yet.</p>
       ) : (
-        <ul className="space-y-3">
+        <ul
+          className="space-y-3"
+          role={listRole === 'list' ? undefined : listRole}
+          aria-live={ariaLive === 'off' ? undefined : ariaLive}
+          aria-label={ariaLabel}
+        >
           {items.map((item) => (
             <li key={item.id}>
               <Link

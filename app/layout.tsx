@@ -62,12 +62,6 @@ export default function RootLayout({ children }: RootLayoutProps) {
     <ClerkProvider>
       <html lang="en" className="scroll-smooth focus:scroll-auto">
         <body className="bg-slate-950 text-slate-100 antialiased">
-          <a
-            href="#main-content"
-            className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:block focus:rounded-lg focus:bg-sky-500 focus:px-4 focus:py-2 focus:text-white focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2"
-          >
-            Skip to main content
-          </a>
           <div className="relative flex min-h-screen flex-col">
             <SiteHeader />
             <main id="main-content" className="flex-1">
